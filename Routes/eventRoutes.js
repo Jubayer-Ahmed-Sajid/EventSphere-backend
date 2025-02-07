@@ -11,6 +11,7 @@ const eventSchemaValidation = joi.object({
     location: joi.string().required(),
     image: joi.string().required(),
     organizer:joi.string().required(),
+    organizerEmail:joi.string().email().required(),
     attendees:joi.array(),
     cratedAt: joi.date()
 
@@ -33,11 +34,20 @@ router.post('/', async (req, res) => {
     }
 });
 
-// find single event
-router.get('/', async (req, res) => {});
-
 // find event by email
-router.get('/:email', async (req, res) => {});
+router.get('/:organizerEmail', async (req, res) => {
+    const {organizerEmail} = req.params;
+    try{
+        const event = await Event.findOne({organizerEmail});
+        if(!event){
+            return res.status(404).json({message: "Event not found"});
+        }
+        res.status(200).json({event});
+    }
+    catch(err){
+        res.status(500).json({message: "Error finding event", err});
+    }
+});
 
 // find event by id
 router.get('/:id', async (req, res) => {});
