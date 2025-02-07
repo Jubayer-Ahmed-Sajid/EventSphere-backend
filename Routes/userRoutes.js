@@ -10,22 +10,6 @@ const userSchemaValidation = joi.object({
 });
 const User = mongoose.model('User', userSchema);
 
-// insert a user
-router.post("/", async (req, res) => {
-    const { error } = userSchemaValidation.validate(req.body);
-    if (error) {
-      return res.status(400).json({ message: error.details[0].message });
-    }
-    const newUser =new User(req.body);
-    try {
-      const savedUser = await newUser.save();
-      res
-        .status(201)
-        .json({ message: "User created successfully", data: savedUser });
-    } catch (err) {
-      res.status(400).json({ message: err.message });
-    }
-  });
 
 // get a user
 router.get("/:email", async (req, res) => {
@@ -41,8 +25,6 @@ router.get("/:email", async (req, res) => {
         res.status(500).json({message: "Internal server error"});
     }
 });
-
-
 
 // get all users
 router.get("/users/all", async(req,res)=>{
