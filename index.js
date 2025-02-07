@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const authRoutes = require('./Routes/authRoutes');
-const userRoutes = require('./Routes/userRoutes')
+const userRoutes = require('./Routes/userRoutes');
+const eventRoutes = require('./Routes/eventRoutes');
 require('dotenv').config();
 const PORT = process.env.PORT || 5000;
 
@@ -25,6 +26,9 @@ app.get('/', async(req,res)=>{
 
 // user Routes
 app.use('/user', userRoutes);
+
+// event routes
+app.use('/event', eventRoutes);
 
 app.listen(PORT,()=>{
     console.log(`Server is running at port ${PORT}`);

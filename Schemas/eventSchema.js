@@ -30,7 +30,11 @@ const eventSchema = new mongoose.Schema({
     },
     attendees:{
         type:Array,
-        required:true
+       
+    },
+    cratedAt:{
+        type:Date,
+        default:Date.now
     }
 
 })
