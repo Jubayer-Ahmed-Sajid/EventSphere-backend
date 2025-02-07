@@ -38,7 +38,7 @@ router.post('/', async (req, res) => {
 router.get('/:organizerEmail', async (req, res) => {
     const {organizerEmail} = req.params;
     try{
-        const event = await Event.findOne({organizerEmail});
+        const event = await Event.find({organizerEmail});
         if(!event){
             return res.status(404).json({message: "Event not found"});
         }
@@ -50,7 +50,21 @@ router.get('/:organizerEmail', async (req, res) => {
 });
 
 // find event by id
-router.get('/:id', async (req, res) => {});
+router.get('/single-event/:_id', async (req, res) => {
+    const {_id} = req.params;
+    try{
+        const event = await Event.findById({_id});
+        if(!event){
+            return res.status(404).json({message: "Event not found"});
+        }
+        res.status(200).json({message:"Event found", event});
+
+    }
+    catch(err){
+        res.status(500).json({message: "Error finding event", err})
+        
+    }
+});
 
 // update event
 router.put('/:id', async (req, res) => {});
