@@ -67,7 +67,24 @@ router.get('/single-event/:_id', async (req, res) => {
 });
 
 // update event
-router.put('/:id', async (req, res) => {});
+router.put('/update/:id', async (req, res) => {
+    const { id } = req.params;
+    const { error } = eventSchemaValidation.validate(req.body);
+    if (error) {
+        return res.status(400).send(error.details[0].message);
+    }
+    try{
+        const event = await Event.findByIdAndUpdate({_id:id}, req.body, {new: true});
+        if(!event){
+            return res.status(404).json({message: "Event not found"});
+        }
+        res.status(200).json({message: "Event updated", event});
+
+    }
+    catch(err){
+        res.status(500).json({message: "Error updating event", err});
+    }
+});
 
 // delete event
 router.delete('/:id', async (req, res) => {});
