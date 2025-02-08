@@ -4,11 +4,14 @@ const authRoutes = require('./Routes/authRoutes');
 const userRoutes = require('./Routes/userRoutes');
 const eventRoutes = require('./Routes/eventRoutes');
 require('dotenv').config();
+const http =  require('http');
+const socketIO = require('socket.io');
 const PORT = process.env.PORT || 5000;
 
 const app = express();
 app.use(express.json());
-
+const server = http.createServer(app);
+const io = require('socket.io')(server);
 const mongoURI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.vqva6ft.mongodb.net/EventSphere-db?retryWrites=true&w=majority&appName=Cluster0`
 
 // Connect to MongoDB
